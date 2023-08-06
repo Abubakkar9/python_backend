@@ -24,6 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Linting with PyLint
+        run: pylint ./User
+
       - name: Start Django server
         run: |
           python --version
@@ -33,7 +36,3 @@ jobs:
 
       - name: Run tests with pytest
         run: pytest
-        
-      - name: Linting with PyLint
-        run: pylint ./User
-
