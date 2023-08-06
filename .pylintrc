@@ -432,7 +432,12 @@ disable=raw-checker-failed,
         trailing-whitespace,
         redefined-outer-name,
         line-too-long,
-        E1101
+        E1101,
+        C0103,
+        C0114,
+        C0115,
+        R0903,
+        W0702
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

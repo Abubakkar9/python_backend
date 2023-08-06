@@ -27,10 +27,9 @@ class Users(APIView):
                 data = User.objects.get(id=pk)
                 serializer = UserSerializer(data)
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                data = User.objects.all()
-                serializer = UserSerializer(data, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+            data = User.objects.all()
+            serializer = UserSerializer(data, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({"message": "Requested User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -102,3 +101,4 @@ class Users(APIView):
             return Response({"message": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
         except:
             return Response({"message": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        
