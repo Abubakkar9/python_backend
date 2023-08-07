@@ -11,7 +11,7 @@ class Users(APIView):
     Supports GET, POST, PUT, and DELETE operations for users.
     """
 
-    def get(self, request):
+    def get(self, request, id=None):
         """
         Get user(s) data based on the provided query parameters.
 
@@ -22,9 +22,8 @@ class Users(APIView):
             Response: JSON response containing user data.
         """
         try:
-            pk = request.query_params.get("pk")
-            if pk:
-                data = User.objects.get(id=pk)
+            if id:
+                data = User.objects.get(id=id)
                 serializer = UserSerializer(data)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             data = User.objects.all()
@@ -53,8 +52,9 @@ class Users(APIView):
             user.save()
             return Response({"message": "User Successfully created!"}, status=status.HTTP_201_CREATED)
         return Response({"message": "Invalid Data"}, status=status.HTTP_400_BAD_REQUEST)
+    
 
-    def put(self, request):
+    def put(self, request, id=None):
         """
         Update user data.
 
@@ -65,10 +65,9 @@ class Users(APIView):
             Response: JSON response indicating the status of the user update.
         """
         try:
-            pk = request.query_params.get("pk")
             serializer = UserSerializer(data=request.data)
-            if pk and serializer.is_valid():
-                data = User.objects.get(id=int(pk))
+            if id and serializer.is_valid():
+                data = User.objects.get(id=int(id))
                 if data:
                     data.first_name = serializer.validated_data["first_name"]
                     data.last_name = serializer.validated_data["last_name"]
@@ -82,7 +81,7 @@ class Users(APIView):
         except:
             return Response({"message": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request):
+    def delete(self, request, id = None):
         """
         Delete a user.
 
@@ -93,9 +92,8 @@ class Users(APIView):
             Response: JSON response indicating the status of the user deletion.
         """
         try:
-            pk = request.query_params.get("pk")
-            if pk:
-                user = User.objects.get(id=pk)
+            if id:
+                user = User.objects.get(id=id)
                 user.delete()
                 return Response({"message": "User Successfully deleted"}, status=status.HTTP_200_OK)
             return Response({"message": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
